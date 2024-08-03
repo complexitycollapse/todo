@@ -1,11 +1,18 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import { fileURLToPath } from "url";
+import * as fileWatcher from "./file-watcher.js";
 
 const env = process.env.NODE_ENV || "development";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// If development environment 
+if (env === "development") {
+  fileWatcher.watch(path.join(__dirname, ".."));
+}
+
 
 const createWindow = () => {
   const win = new BrowserWindow({
