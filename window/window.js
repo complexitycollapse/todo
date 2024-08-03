@@ -73,9 +73,9 @@ function addNoteFunctionality(item) {
       item.classList.add('selected');
 
       const todoTitleInput = document.getElementById('todo-title');
-      todoTitleInput.value = item.textContent;
+      todoTitleInput.value = item.textContent.trim();
       todoTitleInput.oninput = () => {
-          item.textContent = todoTitleInput.value;
+          item.textContent = todoTitleInput.value.trim();
       };
 
       const notesTextarea = document.getElementById('notes');
