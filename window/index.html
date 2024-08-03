@@ -15,13 +15,30 @@
     <title>Todo</title>
   </head>
   <body>
-    <h1>Todo List</h1>
-    <ul class="todo-list">
-        <li class="todo-item" contenteditable="true">Sample Todo 1</li>
-        <li class="todo-item" contenteditable="true">Sample Todo 2</li>
-        <li class="todo-item" contenteditable="true">Sample Todo 3</li>
-    </ul>
-    <button id="add-todo">Add Todo</button>
+    <div class="container">
+      <div class="left-pane">
+          <button id="add-todo">Add Todo</button>
+          <ul class="todo-list">
+              <li class="todo-item" data-notes="">
+                  Sample Todo 1
+                  <button class="delete-todo">Delete</button>
+              </li>
+              <li class="todo-item" data-notes="">
+                  Sample Todo 2
+                  <button class="delete-todo">Delete</button>
+              </li>
+              <li class="todo-item" data-notes="">
+                  Sample Todo 3
+                  <button class="delete-todo">Delete</button>
+              </li>
+          </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="right-pane">
+          <input id="todo-title" placeholder="Todo Title" />
+          <textarea id="notes" placeholder="Select a todo to view or edit its notes..."></textarea>
+      </div>
+  </div>
     <script type="module" src="window.js"></script>
   </body>
 </html>
