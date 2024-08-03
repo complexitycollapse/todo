@@ -12,11 +12,16 @@
       content="default-src 'self'; script-src 'self'"
     />
     <link rel="stylesheet" href="index.css">
-    <title>Hello from Electron renderer!</title>
+    <title>Todo</title>
   </head>
   <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
+    <h1>Todo List</h1>
+    <ul class="todo-list">
+        <li class="todo-item" contenteditable="true">Sample Todo 1</li>
+        <li class="todo-item" contenteditable="true">Sample Todo 2</li>
+        <li class="todo-item" contenteditable="true">Sample Todo 3</li>
+    </ul>
+    <button id="add-todo">Add Todo</button>
     <script type="module" src="window.js"></script>
   </body>
 </html>

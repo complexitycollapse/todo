@@ -1,3 +1,3 @@
-# PROJECT_NAME
+# todo
 
-Dscription
+A TODO app that saves all the TODOs in a single HTML file.

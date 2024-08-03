@@ -1,7 +1,7 @@
 {
-  "name": "",
+  "name": "todo",
   "version": "1.0.0",
-  "description": "",
+  "description": "A TODO app that saves all the TODOs in a single HTML file.",
   "main": "main/main.js",
   "type": "module",
   "scripts": {
