@@ -2,8 +2,21 @@ document.getElementById('add-todo').addEventListener('click', () => {
   const todoList = document.querySelector('.todo-list');
   const newTodo = addTodoItem(todoList, 'New Todo');
   makeDraggable(newTodo);
-  addDeleteFunctionality(newTodo);
   addNoteFunctionality(newTodo);
+});
+
+document.getElementById('add-sub-todo').addEventListener('click', () => {
+  const previouslySelected = document.querySelector('.todo-item.selected');
+  const nestedList = previouslySelected.querySelector('ul');
+  const newSubTodo = addTodoItem(nestedList, 'New Sub-Todo');
+  makeDraggable(newSubTodo);
+  addNoteFunctionality(newSubTodo);
+});
+
+document.getElementById('delete-todo').addEventListener('click', () => {
+  const previouslySelected = document.querySelector('.todo-item.selected');
+  previouslySelected.remove();
+  clearNotesIfDeleted(previouslySelected);
 });
 
 function addTodoItem(todoList, text) {
@@ -15,27 +28,7 @@ function addTodoItem(todoList, text) {
   const nestedList = document.createElement('ul');
   nestedList.className = 'todo-list nested-list';
 
-  const addSubTodoButton = document.createElement('button');
-  addSubTodoButton.textContent = 'Add Sub-Todo';
-  addSubTodoButton.className = 'add-sub-todo';
-  addSubTodoButton.addEventListener('click', () => {
-      const newSubTodo = addTodoItem(nestedList, 'New Sub-Todo');
-      makeDraggable(newSubTodo);
-      addDeleteFunctionality(newSubTodo);
-      addNoteFunctionality(newSubTodo);
-  });
-
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'Delete';
-  deleteButton.className = 'delete-todo';
-  deleteButton.addEventListener('click', () => {
-      newTodo.remove();
-      clearNotesIfDeleted(newTodo);
-  });
-
   newTodo.appendChild(nestedList);
-  newTodo.appendChild(addSubTodoButton);
-  newTodo.appendChild(deleteButton);
   todoList.appendChild(newTodo);
   return newTodo;
 }
@@ -68,14 +61,6 @@ function makeDraggable(item) {
       if (draggingItem !== target && todoList.contains(target)) {
           todoList.insertBefore(draggingItem, target);
       }
-  });
-}
-
-function addDeleteFunctionality(item) {
-  const deleteButton = item.querySelector('.delete-todo');
-  deleteButton.addEventListener('click', () => {
-      item.remove();
-      clearNotesIfDeleted(item);
   });
 }
 
@@ -130,7 +115,6 @@ function onMouseMove(e) {
   if (leftPaneWidth < 100 || rightPaneWidth < 100) return; // Prevent too small panes
 
   document.querySelector('.left-pane').style.flex = `0 0 ${leftPaneWidth}px`;
-  document.querySelector('.right-pane').style.flex = `0 0 ${rightPaneWidth}px`;
 }
 
 function onMouseUp() {
@@ -141,6 +125,5 @@ function onMouseUp() {
 
 document.querySelectorAll('.todo-item').forEach(item => {
   makeDraggable(item);
-  addDeleteFunctionality(item);
   addNoteFunctionality(item);
 });

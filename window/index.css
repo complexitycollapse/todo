@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #3f3f3f;
@@ -80,48 +84,30 @@ h2 {
   border-left: 1px solid #6f6f6f;
 }
 
-.add-sub-todo, .delete-todo {
-  background-color: #5f5f5f;
-  color: #dcdccc;
-  border: none;
-  padding: 5px 10px;
-  margin-top: 5px;
-  cursor: pointer;
-  border-radius: 4px;
-  display: block;
-}
-
-.add-sub-todo:hover, .delete-todo:hover {
-  background-color: #6f6f6f;
-}
-
-.add-sub-todo:active, .delete-todo:active {
-  background-color: #4f4f4f;
-}
-
-.delete-todo {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#add-todo {
+.todo-button {
   background-color: #6f6f6f;
   color: #dcdccc;
   border: none;
   padding: 10px 20px;
-  margin-bottom: 20px; /* Add margin below the button */
   cursor: pointer;
   border-radius: 4px;
 }
 
-#add-todo:hover {
+.todo-button:hover {
   background-color: #7f7f7f;
 }
 
-#add-todo:active {
+.todo-button:active {
   background-color: #5f5f5f;
+}
+
+.todo-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.todo-buttons > .todo-button {
+  margin: 10px 20px 20px 0px;
 }
 
 #todo-title {
