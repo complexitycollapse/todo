@@ -1,31 +1,36 @@
 document.getElementById('add-todo').addEventListener('click', () => {
-  const todoList = document.querySelector('.todo-list');
-  const newTodo = addTodoItem(todoList, 'New Todo');
+  const previouslySelected = document.querySelector('.todo-item.selected');
+  const todoList = (parentTodo(previouslySelected) ?? document).querySelector('.todo-list');
+  const newTodo = addTodoItem(todoList, '');
   makeDraggable(newTodo);
   addNoteFunctionality(newTodo);
   addCheckboxFunctionality(newTodo);
   addCollapseFunctionality(newTodo);
+  document.getElementById('todo-title').focus();
 });
+
+const parentTodo = (item) => item?.parentElement?.closest('.todo-item');
 
 document.getElementById('add-sub-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
 
   const nestedList = previouslySelected.querySelector('ul');
-  const newSubTodo = addTodoItem(nestedList, 'New Sub-Todo');
+  const newSubTodo = addTodoItem(nestedList, '');
   makeDraggable(newSubTodo);
   addNoteFunctionality(newSubTodo);
   addCheckboxFunctionality(newSubTodo);
   addCollapseFunctionality(newSubTodo);
   setChildControlsVisibility(newSubTodo);
   setChildControlsVisibility(previouslySelected);
+  document.getElementById('todo-title').focus();
 });
 
 document.getElementById('delete-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
 
-  const parent = previouslySelected.parentElement.closest('.todo-item');
+  const parent = parentTodo(previouslySelected);
   previouslySelected.remove();
   clearNotesIfDeleted(previouslySelected);
 
@@ -33,6 +38,8 @@ document.getElementById('delete-todo').addEventListener('click', () => {
 });
 
 function setChildControlsVisibility(parent) {
+  if (!parent) return;
+
   const collapseButton = parent.querySelector('.collapse-button');
   const nestedList = parent.querySelector('.nested-list');
   const counter = parent.querySelector('.todo-count');
@@ -90,6 +97,7 @@ function addTodoItem(todoList, text) {
     i--;
 }
   todoList.insertBefore(newTodo, items[i]?.nextSibling);
+  selectTodo(newTodo);
   return newTodo;
 }
 
@@ -106,7 +114,7 @@ function addCheckboxFunctionality(item) {
           delete item.dataset.prev;
       }
 
-      setChildControlsVisibility(item.parentElement.closest('.todo-item'));
+      setChildControlsVisibility(parentTodo(item));
   });
 }
 
@@ -158,13 +166,18 @@ function addNoteFunctionality(item) {
       return; // Don't select item when clicking on checkbox
     }
 
-    const previouslySelected = document.querySelector('.todo-item.selected');
+    e.stopPropagation();
+
+    selectTodo(item);
+  });
+}
+
+function selectTodo(item) {
+  const previouslySelected = document.querySelector('.todo-item.selected');
  
     if (previouslySelected) {
       previouslySelected.classList.remove('selected');
     }
-
-    e.stopPropagation();
 
     item.classList.add('selected');
 
@@ -179,7 +192,6 @@ function addNoteFunctionality(item) {
     notesTextarea.oninput = () => {
       item.dataset.notes = notesTextarea.value;
     };
-  });
 }
 
 function clearNotesIfDeleted(item) {
