@@ -17,14 +17,26 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
   addNoteFunctionality(newSubTodo);
   addCheckboxFunctionality(newSubTodo);
   addCollapseFunctionality(newSubTodo);
+  previouslySelected.querySelector('.collapse-button').classList.remove('invisible');
 });
 
 document.getElementById('delete-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
 
+  const parent = previouslySelected.parentElement.closest('.todo-item');
   previouslySelected.remove();
   clearNotesIfDeleted(previouslySelected);
+
+  if (parent) {
+    const collapseButton = parent.querySelector('.collapse-button');
+    const nestedList = parent.querySelector('.nested-list');
+    if (nestedList.children.length > 0) {
+        collapseButton.classList.remove('invisible');
+    } else {
+        collapseButton.classList.add('invisible');
+    }
+  }
 });
 
 function addTodoItem(todoList, text) {
@@ -33,7 +45,7 @@ function addTodoItem(todoList, text) {
   newTodo.dataset.notes = '';
 
   const collapseButton = document.createElement('button');
-    collapseButton.className = 'collapse-button';
+    collapseButton.className = 'collapse-button invisible';
     collapseButton.textContent = '-';
 
   const headline = document.createElement('div');

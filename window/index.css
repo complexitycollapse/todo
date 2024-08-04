@@ -187,3 +187,7 @@ textarea#notes {
 .collapse-button:focus {
   outline: none;
 }
+
+.invisible {
+  visibility: hidden;
+}
