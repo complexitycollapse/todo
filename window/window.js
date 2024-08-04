@@ -8,6 +8,7 @@ document.getElementById('add-todo').addEventListener('click', () => {
 
 document.getElementById('add-sub-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
+  if (!previouslySelected) return;
   const nestedList = previouslySelected.querySelector('ul');
   const newSubTodo = addTodoItem(nestedList, 'New Sub-Todo');
   makeDraggable(newSubTodo);
@@ -16,6 +17,7 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
 
 document.getElementById('delete-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
+  if (!previouslySelected) return;
   previouslySelected.remove();
   clearNotesIfDeleted(previouslySelected);
 });
@@ -24,6 +26,9 @@ function addTodoItem(todoList, text) {
   const newTodo = document.createElement('li');
   newTodo.className = 'todo-item';
   newTodo.dataset.notes = '';
+
+  const headline = document.createElement('div');
+  headline.className = "todo-headline";
 
   const span = document.createElement('span');
   span.textContent = text;
@@ -36,8 +41,9 @@ function addTodoItem(todoList, text) {
   const nestedList = document.createElement('ul');
   nestedList.className = 'todo-list nested-list';
 
-  newTodo.appendChild(checkbox);
-  newTodo.appendChild(span);
+  headline.appendChild(checkbox);
+  headline.appendChild(span);
+  newTodo.appendChild(headline);
   newTodo.appendChild(nestedList);
 
   const items = Array.from(todoList.children);
@@ -77,7 +83,7 @@ function moveItemToActivePosition(item) {
 
 function makeDraggable(item) {
   item.draggable = true;
-  item.addEventListener('dragstart', (e) => {
+  item.querySelector(".todo-headline").addEventListener('dragstart', (e) => {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/html', item.outerHTML);
       item.classList.add('dragging');
@@ -107,7 +113,7 @@ function makeDraggable(item) {
 }
 
 function addNoteFunctionality(item) {
-  item.addEventListener('click', () => {
+  item.addEventListener('click', e => {
     if (event.target.classList.contains('todo-checkbox')) {
       return; // Don't select item when clicking on checkbox
     }
@@ -117,6 +123,9 @@ function addNoteFunctionality(item) {
     if (previouslySelected) {
       previouslySelected.classList.remove('selected');
     }
+
+    e.stopPropagation();
+
     item.classList.add('selected');
 
     const todoTitleInput = document.getElementById('todo-title');

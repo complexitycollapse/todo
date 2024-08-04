@@ -59,6 +59,11 @@ h2 {
 
 .todo-item {
   display: flex;
+  flex-direction: column;
+}
+
+.todo-headline {
+  display: flex;
   align-items: center;
   padding: 10px;
   margin: 5px 0;
@@ -70,24 +75,24 @@ h2 {
   position: relative; /* For positioning delete button */
 }
 
-.todo-item:focus {
+.todo-headline:focus {
   outline: none;
   border-color: #7f7f7f;
 }
 
-.todo-item.selected {
+.todo-item.selected > .todo-headline {
   background-color: #6f6f6f;
   border-color: #8f8f8f;
 }
 
-.todo-item.completed {
+.todo-headline.completed {
   background-color: #2f2f2f;
   color: #a0a0a06e;
   text-decoration: line-through;
 }
 
 /* Ensure completed items are below active items but above other completed items */
-.todo-item.completed {
+.todo-headline.completed {
   order: 1;
 }
 
