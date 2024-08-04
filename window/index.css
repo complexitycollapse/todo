@@ -191,3 +191,7 @@ textarea#notes {
 .invisible {
   visibility: hidden;
 }
+
+.todo-count {
+  -ms-flex-item-align: end;
+}

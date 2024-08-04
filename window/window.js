@@ -17,7 +17,8 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
   addNoteFunctionality(newSubTodo);
   addCheckboxFunctionality(newSubTodo);
   addCollapseFunctionality(newSubTodo);
-  previouslySelected.querySelector('.collapse-button').classList.remove('invisible');
+  setChildControlsVisibility(newSubTodo);
+  setChildControlsVisibility(previouslySelected);
 });
 
 document.getElementById('delete-todo').addEventListener('click', () => {
@@ -28,16 +29,27 @@ document.getElementById('delete-todo').addEventListener('click', () => {
   previouslySelected.remove();
   clearNotesIfDeleted(previouslySelected);
 
-  if (parent) {
-    const collapseButton = parent.querySelector('.collapse-button');
-    const nestedList = parent.querySelector('.nested-list');
-    if (nestedList.children.length > 0) {
-        collapseButton.classList.remove('invisible');
-    } else {
-        collapseButton.classList.add('invisible');
-    }
-  }
+  if (parent) setChildControlsVisibility(parent);
 });
+
+function setChildControlsVisibility(parent) {
+  const collapseButton = parent.querySelector('.collapse-button');
+  const nestedList = parent.querySelector('.nested-list');
+  const counter = parent.querySelector('.todo-count');
+
+  if (nestedList.children.length > 0) {
+      collapseButton.classList.remove('invisible');
+      counter.classList.remove('invisible');
+  } else {
+    collapseButton.classList.add('invisible');
+    counter.classList.add('invisible');
+  }
+
+  const children = Array.from(parent.querySelector('ul').children);
+  const complete = children.filter(c => c.querySelector('.todo-checkbox')?.checked);
+
+  counter.textContent = complete.length.toString() + "/" + children.length.toString();
+}
 
 function addTodoItem(todoList, text) {
   const newTodo = document.createElement('li');
@@ -45,8 +57,11 @@ function addTodoItem(todoList, text) {
   newTodo.dataset.notes = '';
 
   const collapseButton = document.createElement('button');
-    collapseButton.className = 'collapse-button invisible';
-    collapseButton.textContent = '-';
+  collapseButton.className = 'collapse-button invisible';
+  collapseButton.textContent = '-';
+
+  const counter = document.createElement('span');
+  counter.className = 'todo-count invisible';
 
   const headline = document.createElement('div');
   headline.className = "todo-headline";
@@ -65,6 +80,7 @@ function addTodoItem(todoList, text) {
   headline.appendChild(collapseButton);
   headline.appendChild(checkbox);
   headline.appendChild(span);
+  headline.appendChild(counter);
   newTodo.appendChild(headline);
   newTodo.appendChild(nestedList);
 
@@ -89,6 +105,8 @@ function addCheckboxFunctionality(item) {
           moveItemToActivePosition(item);
           delete item.dataset.prev;
       }
+
+      setChildControlsVisibility(item.parentElement.closest('.todo-item'));
   });
 }
 
