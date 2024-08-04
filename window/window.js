@@ -3,6 +3,7 @@ document.getElementById('add-todo').addEventListener('click', () => {
   const newTodo = addTodoItem(todoList, 'New Todo');
   makeDraggable(newTodo);
   addNoteFunctionality(newTodo);
+  addCheckboxFunctionality(newTodo);
 });
 
 document.getElementById('add-sub-todo').addEventListener('click', () => {
@@ -22,15 +23,50 @@ document.getElementById('delete-todo').addEventListener('click', () => {
 function addTodoItem(todoList, text) {
   const newTodo = document.createElement('li');
   newTodo.className = 'todo-item';
-  newTodo.textContent = text;
   newTodo.dataset.notes = '';
+
+  const span = document.createElement('span');
+  span.textContent = text;
+  span.className = "todo-text";
+
+  const checkbox = document.createElement('input');
+  checkbox.type = "checkbox";
+  checkbox.className = 'todo-checkbox';
 
   const nestedList = document.createElement('ul');
   nestedList.className = 'todo-list nested-list';
 
+  newTodo.appendChild(checkbox);
+  newTodo.appendChild(span);
   newTodo.appendChild(nestedList);
   todoList.appendChild(newTodo);
   return newTodo;
+}
+
+function addCheckboxFunctionality(item) {
+  const checkbox = item.querySelector('.todo-checkbox');
+  checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+          item.classList.add('completed');
+          item.dataset.prev = Array.from(item.parentElement.children).indexOf(item);
+          item.parentElement.appendChild(item);
+      } else {
+          item.classList.remove('completed');
+          moveItemToActivePosition(item);
+          delete item.dataset.prev;
+      }
+  });
+}
+
+function moveItemToActivePosition(item) {
+  const todoList = item.parentElement;
+  const items = Array.from(todoList.children);
+
+  let i = item.dataset.prev;
+  while (i > 0 && items[i].classList.contains('completed')) {
+      i--;
+  }
+  todoList.insertBefore(item, items[i]);
 }
 
 function makeDraggable(item) {
@@ -66,23 +102,28 @@ function makeDraggable(item) {
 
 function addNoteFunctionality(item) {
   item.addEventListener('click', () => {
-      const previouslySelected = document.querySelector('.todo-item.selected');
-      if (previouslySelected) {
-          previouslySelected.classList.remove('selected');
-      }
-      item.classList.add('selected');
+    if (event.target.classList.contains('todo-checkbox')) {
+      return; // Don't select item when clicking on checkbox
+    }
 
-      const todoTitleInput = document.getElementById('todo-title');
-      todoTitleInput.value = item.textContent.trim();
-      todoTitleInput.oninput = () => {
-          item.textContent = todoTitleInput.value.trim();
-      };
+    const previouslySelected = document.querySelector('.todo-item.selected');
+ 
+    if (previouslySelected) {
+      previouslySelected.classList.remove('selected');
+    }
+    item.classList.add('selected');
 
-      const notesTextarea = document.getElementById('notes');
-      notesTextarea.value = item.dataset.notes;
-      notesTextarea.oninput = () => {
-          item.dataset.notes = notesTextarea.value;
-      };
+    const todoTitleInput = document.getElementById('todo-title');
+    todoTitleInput.value = item.querySelector('.todo-text').textContent.trim();
+    todoTitleInput.oninput = () => {
+      item.querySelector('.todo-text').textContent = todoTitleInput.value.trim();
+    };
+
+    const notesTextarea = document.getElementById('notes');
+    notesTextarea.value = item.dataset.notes;
+    notesTextarea.oninput = () => {
+      item.dataset.notes = notesTextarea.value;
+    };
   });
 }
 
@@ -126,4 +167,5 @@ function onMouseUp() {
 document.querySelectorAll('.todo-item').forEach(item => {
   makeDraggable(item);
   addNoteFunctionality(item);
+  addCheckboxFunctionality(item);
 });

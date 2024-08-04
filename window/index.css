@@ -58,6 +58,8 @@ h2 {
 }
 
 .todo-item {
+  display: flex;
+  align-items: center;
   padding: 10px;
   margin: 5px 0;
   background-color: #4f4f4f;
@@ -76,6 +78,25 @@ h2 {
 .todo-item.selected {
   background-color: #6f6f6f;
   border-color: #8f8f8f;
+}
+
+.todo-item.completed {
+  background-color: #2f2f2f;
+  color: #a0a0a06e;
+  text-decoration: line-through;
+}
+
+/* Ensure completed items are below active items but above other completed items */
+.todo-item.completed {
+  order: 1;
+}
+
+.todo-checkbox {
+  margin-right: 10px;
+}
+
+.todo-text {
+  flex: 1;
 }
 
 .nested-list {
