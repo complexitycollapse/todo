@@ -37,6 +37,21 @@ document.getElementById('delete-todo').addEventListener('click', () => {
   if (parent) setChildControlsVisibility(parent);
 });
 
+document.getElementById('collapse-all').addEventListener('click', () => {
+  const previouslySelected = document.querySelector('.todo-item.selected');
+  if (previouslySelected) {
+    function getRoot(item) {
+      const parent = item.parentElement.closest('.todo-item');
+      if (parent) return getRoot(parent);
+      else return item;
+    }
+
+    selectTodo(getRoot(previouslySelected));
+  }
+
+  document.querySelectorAll('.todo-item').forEach(collapse);
+});
+
 document.getElementById('todo-filter').addEventListener('input', () => {
   const filterString = document.getElementById('todo-filter').value;
   Array.from(document.getElementById('main-list').children).forEach(item => {
