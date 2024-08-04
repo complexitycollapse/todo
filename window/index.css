@@ -115,6 +115,10 @@ h2 {
   display: none;
 }
 
+.nested-list.peek {
+  display: block;
+}
+
 .todo-button {
   background-color: #6f6f6f;
   color: #dcdccc;

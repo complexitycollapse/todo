@@ -49,20 +49,28 @@ function recursiveFilter(filter, item) {
   const notes = item.dataset.notes;
   const childItems = findTopLevelTodoItems(item);
 
+  let visible = false, childrenVisible = false;
+  childItems.forEach(i => childrenVisible |= recursiveFilter(filter, i));
+
   if (!filter || filter.trim() === "" || title.includes(filter) || notes.includes(filter)) {
-    item.classList.remove('filter-excluded');
-    childItems.forEach(i => recursiveFilter(filter, i));
-    return true;
+    visible = true;
   } else {
-    let visible = false;
-    childItems.forEach(i => visible |= recursiveFilter(filter, i));
-    if (visible) {
-      item.classList.remove('filter-excluded');
-    } else {
-      item.classList.add('filter-excluded');
-    }
-    return visible;
+    visible = childrenVisible;
   }
+
+  if (childrenVisible && filter) {
+    expandAncestry(item, true);
+  } else {
+    unpeek(item);
+  }
+
+  if (visible) {
+    item.classList.remove('filter-excluded');
+  } else {
+    item.classList.add('filter-excluded');
+  }
+
+  return visible;
 }
 
 function setChildControlsVisibility(parent) {
@@ -208,6 +216,7 @@ function selectTodo(item) {
     }
 
     item.classList.add('selected');
+    expandAncestry(item.parentElement.closest('.todo-item'));
 
     const todoTitleInput = document.getElementById('todo-title');
     todoTitleInput.value = item.querySelector('.todo-text').textContent.trim();
@@ -260,17 +269,37 @@ function onMouseUp() {
 }
 
 function addCollapseFunctionality(item) {
-  const collapseButton = item.querySelector('.collapse-button');
-  const nestedList = item.querySelector('.nested-list');
-  collapseButton.addEventListener('click', () => {
-      if (nestedList.classList.contains('collapsed')) {
-          nestedList.classList.remove('collapsed');
-          collapseButton.textContent = '-';
+  item.querySelector('.collapse-button').addEventListener('click', () => {
+      if (item.querySelector('.nested-list').classList.contains('collapsed')) {
+          expandAncestry(item);
       } else {
-          nestedList.classList.add('collapsed');
-          collapseButton.textContent = '+';
+          collapse(item);
       }
   });
+}
+
+function collapse(item) {
+  item.querySelector('.nested-list').classList.add('collapsed');
+  item.querySelector('.collapse-button').textContent = '+';
+}
+
+function expand (item, peek) {
+  if (peek) {
+    item.querySelector('.nested-list').classList.add('peek');
+    return;
+  }
+  item.querySelector('.nested-list').classList.remove('collapsed');
+  item.querySelector('.collapse-button').textContent = '-';
+}
+
+function unpeek(item) {
+  item.querySelector('.nested-list').classList.remove('peek');
+}
+
+function expandAncestry(item, peek) {
+  if (!item) return;
+  expand(item, peek);
+  expandAncestry(item.parentElement.closest('.todo-item'));
 }
 
 document.querySelectorAll('.todo-item').forEach(item => {
