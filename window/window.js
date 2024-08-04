@@ -37,6 +37,34 @@ document.getElementById('delete-todo').addEventListener('click', () => {
   if (parent) setChildControlsVisibility(parent);
 });
 
+document.getElementById('todo-filter').addEventListener('input', () => {
+  const filterString = document.getElementById('todo-filter').value;
+  Array.from(document.getElementById('main-list').children).forEach(item => {
+    recursiveFilter(filterString, item);
+  });
+});
+
+function recursiveFilter(filter, item) {
+  const title = item.querySelector('.todo-text').textContent;
+  const notes = item.dataset.notes;
+  const childItems = findTopLevelTodoItems(item);
+
+  if (!filter || filter.trim() === "" || title.includes(filter) || notes.includes(filter)) {
+    item.classList.remove('filter-excluded');
+    childItems.forEach(i => recursiveFilter(filter, i));
+    return true;
+  } else {
+    let visible = false;
+    childItems.forEach(i => visible |= recursiveFilter(filter, i));
+    if (visible) {
+      item.classList.remove('filter-excluded');
+    } else {
+      item.classList.add('filter-excluded');
+    }
+    return visible;
+  }
+}
+
 function setChildControlsVisibility(parent) {
   if (!parent) return;
 
@@ -251,3 +279,16 @@ document.querySelectorAll('.todo-item').forEach(item => {
   addCheckboxFunctionality(item);
   addCollapseFunctionality(item);
 });
+
+function findTopLevelTodoItems(item) {
+  // Select all elements with the class 'todo-item' within the given element
+  const allTodoItems = item.querySelectorAll('.todo-item');
+  
+  // Filter out nested todo-items
+  const topLevelTodoItems = Array.from(allTodoItems).filter(childItem => {
+      // Check if the closest ancestor with the class 'todo-item' is the current element itself
+      return childItem.parentElement.closest('.todo-item') === item;
+  });
+  
+  return topLevelTodoItems;
+}

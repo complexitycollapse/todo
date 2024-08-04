@@ -20,7 +20,7 @@ body {
 }
 
 .left-pane, .right-pane {
-  padding: 20px;
+  padding: 20px 20px 20px 20px;
   overflow-y: auto;
   flex: 1; /* Ensure both panes take equal space by default */
 }
@@ -138,7 +138,19 @@ h2 {
 }
 
 .todo-buttons > .todo-button {
-  margin: 10px 20px 20px 0px;
+  margin: 0px 20px 20px 0px;
+}
+
+#todo-filter {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #6f6f6f;
+  border-radius: 4px;
+  background-color: #484848;
+  color: #dcdccc;
+  outline: none;
+  font-family: monospace
 }
 
 #todo-title {
@@ -196,4 +208,8 @@ textarea#notes {
 
 .todo-count {
   -ms-flex-item-align: end;
+}
+
+.filter-excluded {
+  display: none;
 }
