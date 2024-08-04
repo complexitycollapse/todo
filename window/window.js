@@ -39,7 +39,13 @@ function addTodoItem(todoList, text) {
   newTodo.appendChild(checkbox);
   newTodo.appendChild(span);
   newTodo.appendChild(nestedList);
-  todoList.appendChild(newTodo);
+
+  const items = Array.from(todoList.children);
+  let i = todoList.children.length - 1;
+  while (i > 0 && items[i].classList.contains('completed')) {
+    i--;
+}
+  todoList.insertBefore(newTodo, items[i]?.nextSibling);
   return newTodo;
 }
 
