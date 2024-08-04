@@ -4,20 +4,25 @@ document.getElementById('add-todo').addEventListener('click', () => {
   makeDraggable(newTodo);
   addNoteFunctionality(newTodo);
   addCheckboxFunctionality(newTodo);
+  addCollapseFunctionality(newTodo);
 });
 
 document.getElementById('add-sub-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
+
   const nestedList = previouslySelected.querySelector('ul');
   const newSubTodo = addTodoItem(nestedList, 'New Sub-Todo');
   makeDraggable(newSubTodo);
   addNoteFunctionality(newSubTodo);
+  addCheckboxFunctionality(newSubTodo);
+  addCollapseFunctionality(newSubTodo);
 });
 
 document.getElementById('delete-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
+
   previouslySelected.remove();
   clearNotesIfDeleted(previouslySelected);
 });
@@ -26,6 +31,10 @@ function addTodoItem(todoList, text) {
   const newTodo = document.createElement('li');
   newTodo.className = 'todo-item';
   newTodo.dataset.notes = '';
+
+  const collapseButton = document.createElement('button');
+    collapseButton.className = 'collapse-button';
+    collapseButton.textContent = '-';
 
   const headline = document.createElement('div');
   headline.className = "todo-headline";
@@ -41,6 +50,7 @@ function addTodoItem(todoList, text) {
   const nestedList = document.createElement('ul');
   nestedList.className = 'todo-list nested-list';
 
+  headline.appendChild(collapseButton);
   headline.appendChild(checkbox);
   headline.appendChild(span);
   newTodo.appendChild(headline);
@@ -179,8 +189,23 @@ function onMouseUp() {
   document.removeEventListener('mouseup', onMouseUp);
 }
 
+function addCollapseFunctionality(item) {
+  const collapseButton = item.querySelector('.collapse-button');
+  const nestedList = item.querySelector('.nested-list');
+  collapseButton.addEventListener('click', () => {
+      if (nestedList.classList.contains('collapsed')) {
+          nestedList.classList.remove('collapsed');
+          collapseButton.textContent = '-';
+      } else {
+          nestedList.classList.add('collapsed');
+          collapseButton.textContent = '+';
+      }
+  });
+}
+
 document.querySelectorAll('.todo-item').forEach(item => {
   makeDraggable(item);
   addNoteFunctionality(item);
   addCheckboxFunctionality(item);
+  addCollapseFunctionality(item);
 });
