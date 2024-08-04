@@ -149,6 +149,7 @@ h2 {
   border-radius: 4px;
   background-color: #3f3f3f;
   color: #dcdccc;
+  outline: none;
 }
 
 textarea#notes {
@@ -160,6 +161,7 @@ textarea#notes {
   background-color: #3f3f3f;
   color: #dcdccc;
   resize: none;
+  outline: none;
 }
 
 ::-webkit-scrollbar {
