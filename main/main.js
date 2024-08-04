@@ -13,6 +13,8 @@ if (env === "development") {
   fileWatcher.watch(path.join(__dirname, ".."));
 }
 
+let uiFilePath = process.argv[2];
+if (uiFilePath === "--remote-debugging-port=9222") uiFilePath = undefined;
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -28,7 +30,11 @@ const createWindow = () => {
 
   // win.maximize();
   // win.show();
-  win.loadFile("window/index.html");
+  if (uiFilePath) {
+    win.loadFile(uiFilePath);
+  } else {
+    win.loadFile("window/index.html");
+  }
 
   // Listen for console events and open DevTools on error
   win.webContents.on("console-message", (event, level, message, line, sourceId) => {
@@ -39,7 +45,8 @@ const createWindow = () => {
 }
 
 app.whenReady().then(async () => {
-  await import("./api.js");
+  const api = await import("./api.js");
+  api.setPath(path.join(process.cwd(), uiFilePath));
   createWindow();
 });
 

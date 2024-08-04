@@ -1,3 +1,7 @@
+document.getElementById('save').addEventListener('click', () => {
+  electron.save(document.documentElement.outerHTML);
+});
+
 document.getElementById('add-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   const todoList = (parentTodo(previouslySelected) ?? document).querySelector('.todo-list');
