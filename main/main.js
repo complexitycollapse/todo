@@ -18,7 +18,7 @@ if (uiFilePath === "--remote-debugging-port=9222") uiFilePath = undefined;
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 900,
+    width: 1050,
     height: 675,
     // show: false,
     webPreferences: {
