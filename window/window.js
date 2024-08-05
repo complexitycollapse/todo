@@ -228,6 +228,8 @@ function addNoteFunctionality(item) {
 }
 
 function selectTodo(item) {
+  if (!item) return;
+
   const previouslySelected = document.querySelector('.todo-item.selected');
  
     if (previouslySelected) {
@@ -321,13 +323,6 @@ function expandAncestry(item, peek) {
   expandAncestry(item.parentElement.closest('.todo-item'));
 }
 
-document.querySelectorAll('.todo-item').forEach(item => {
-  makeDraggable(item);
-  addNoteFunctionality(item);
-  addCheckboxFunctionality(item);
-  addCollapseFunctionality(item);
-});
-
 function findTopLevelTodoItems(item) {
   // Select all elements with the class 'todo-item' within the given element
   const allTodoItems = item.querySelectorAll('.todo-item');
@@ -340,3 +335,15 @@ function findTopLevelTodoItems(item) {
   
   return topLevelTodoItems;
 }
+
+document.querySelectorAll('.todo-item').forEach(item => {
+  makeDraggable(item);
+  addNoteFunctionality(item);
+  addCheckboxFunctionality(item);
+  addCollapseFunctionality(item);
+  if (item.classList.contains("completed")) {
+    item.querySelector(".todo-checkbox").checked = true;
+  }
+});
+
+selectTodo(document.querySelector(".todo-item.selected"));
