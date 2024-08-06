@@ -313,3 +313,57 @@ document.querySelectorAll('.todo-item').forEach(item => {
 });
 
 selectTodo(document.querySelector(".todo-item.selected"));
+
+document.addEventListener('keydown', (e) => {
+  const selectedItem = document.querySelector(".todo-item.selected");
+  if (selectedItem && e.ctrlKey) {
+    switch (e.key) {
+      case 'ArrowUp':
+        moveUp(selectedItem);
+        break;
+      case 'ArrowDown':
+        moveDown(selectedItem);
+        break;
+      case 'ArrowLeft':
+        moveToAncestor(selectedItem);
+        break;
+      case 'ArrowRight':
+        moveToDescendant(selectedItem);
+        break;
+    }
+  }
+});
+
+function moveUp(item) {
+  let prev = item.previousElementSibling;
+  if (prev) {
+    item.parentNode.insertBefore(item, prev);
+  }
+}
+
+function moveDown(item) {
+  let next = item.nextElementSibling;
+  if (next) {
+    item.parentNode.insertBefore(next, item);
+  }
+}
+
+function moveToAncestor(item) {
+  let parentUl = item.parentNode.closest('ul');
+  if (parentUl) {
+    let parentLi = parentUl.parentNode.closest('li');
+    parentLi.after(item);
+  }
+}
+
+function moveToDescendant(item) {
+  const targetUl = item.nextElementSibling?.querySelector("ul");
+  if (targetUl) {
+    let firstChild = targetUl.querySelector('.todo-item');
+    if (firstChild) {
+      targetUl.insertBefore(item, firstChild);
+    } else {
+      targetUl.appendChild(item);
+    }
+  }
+}

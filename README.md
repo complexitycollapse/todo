@@ -15,3 +15,11 @@ Oh, you will need to change by hand the urls in the html that point to the css a
 There is an example in this project, called todo.html, which is the todo list for this app. You can run it like this:
 
     npm start -- todo.html
+
+## Features
+
+ - Add TODOs and nested sub-TODOs
+ - Move them around using `Ctrl+<arrow key>`
+ - Edit the TODO using the box on the top right
+ - Add notes to any TODO using the big textarea
+ - Drag the middle partition around to resize the two sides
