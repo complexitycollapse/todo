@@ -30,11 +30,7 @@ const createWindow = () => {
 
   // win.maximize();
   // win.show();
-  if (uiFilePath) {
-    win.loadFile(uiFilePath);
-  } else {
-    win.loadFile("window/index.html");
-  }
+  win.loadFile(uiFilePath ?? "window/index.html");
 
   // Listen for console events and open DevTools on error
   win.webContents.on("console-message", (event, level, message, line, sourceId) => {
@@ -46,7 +42,7 @@ const createWindow = () => {
 
 app.whenReady().then(async () => {
   const api = await import("./api.js");
-  api.setPath(path.join(process.cwd(), uiFilePath));
+  if (uiFilePath) api.setPath(path.join(process.cwd(), uiFilePath));
   createWindow();
 });
 
