@@ -1,11 +1,74 @@
+[data-theme="dark"] {
+  --text-color: #dcdccc;
+  --container-background: #3f3f3f;
+  --pane-background: #4f4f4f;
+  --divider-color: #6f6f6f;
+  --todo-background: #4f4f4f;
+  --todo-border: #6f6f6f;
+  --todo-focus-border: #7f7f7f;
+  --todo-completed-background: #2f2f2f;
+  --todo-completed-color: #a0a0a06e;
+  --todo-selected-background: #6f6f6f;
+  --todo-selected-border: #8f8f8f;
+  --button-background: #6f6f6f;
+  --button-active-background: #5f5f5f;
+  --button-hover-background: #7f7f7f;
+  --input-background: #3f3f3f;
+  --input-border: #6f6f6f;
+  --scrollbar-track: #3f3f3f;
+  --scrollbar-thumb: #6f6f6f;
+}
+
+[data-theme="light blue"] {
+  --text-color: #00008b;
+  --container-background: #e6f0ff;
+  --pane-background: #d9e6f2;
+  --divider-color: #0073e6;
+  --todo-background: #cce0ff;
+  --todo-border: #99c2ff;
+  --todo-focus-border: #3399ff;
+  --todo-completed-background: #b3d1ff;
+  --todo-completed-color: #666699;
+  --todo-selected-background: #3399ff;
+  --todo-selected-border: #3399ff;
+  --button-background: #99c2ff;
+  --button-active-background: #0059b3;
+  --button-hover-background: #0073e6;
+  --input-background: #e6f0ff;
+  --input-border: #99c2ff;
+  --scrollbar-track: #e6f0ff;
+  --scrollbar-thumb: #99c2ff;
+}
+
+[data-theme="dark blue"] {
+  --text-color: #dcdccc;
+  --container-background: #36467a;
+  --pane-background: #36467a;
+  --divider-color: #262b53;
+  --todo-background: #262b53;
+  --todo-border: #6f6f6f;
+  --todo-focus-border: #3399ff;
+  --todo-completed-background: #b3d1ff;
+  --todo-completed-color: #666699;
+  --todo-selected-background: #3399ff;
+  --todo-selected-border: #3399ff;
+  --button-background: #262b53;
+  --button-active-background: #0059b3;
+  --button-hover-background: #0073e6;
+  --input-background: #262b53;
+  --input-border: #262b53;
+  --scrollbar-track: #e6f0ff;
+  --scrollbar-thumb: #99c2ff;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #3f3f3f;
-  color: #dcdccc;
+  background-color: var(--container-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   display: flex;
@@ -24,7 +87,7 @@ body {
 }
 
 .left-pane {
-  background-color: #3f3f3f;
+  background-color: var(--container-background);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -32,7 +95,7 @@ body {
 
 .right-pane {
   padding: 20px 20px 20px 20px;
-  background-color: #4f4f4f;
+  background-color: var(--pane-background);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -41,7 +104,7 @@ body {
 
 .divider {
   width: 5px;
-  background-color: #6f6f6f;
+  background-color: var(--divider-color);
   cursor: ew-resize;
   z-index: 1;
 }
@@ -67,27 +130,27 @@ h2 {
   align-items: center;
   padding: 10px;
   margin: 5px 0;
-  background-color: #4f4f4f;
-  border: 1px solid #6f6f6f;
+  background-color: var(--todo-background);
+  border: 1px solid var(--todo-border);
   border-radius: 4px;
   cursor: pointer;
-  color: #dcdccc;
+  color: var(--text-color);
   position: relative; /* For positioning delete button */
 }
 
 .todo-headline:focus {
   outline: none;
-  border-color: #7f7f7f;
+  border-color: var(--todo-focus-border);
 }
 
 .todo-item.selected > .todo-headline {
-  background-color: #6f6f6f;
-  border-color: #8f8f8f;
+  background-color: var(--todo-selected-background);
+  border-color: var(--todo-selected-border);
 }
 
 .todo-item.completed > .todo-headline {
-  background-color: #2f2f2f;
-  color: #a0a0a06e;
+  background-color: var(--todo-completed-background);
+  color: var(--todo-completed-color);
   text-decoration: line-through;
 }
 
@@ -107,7 +170,7 @@ h2 {
 .nested-list {
   margin-left: 20px;
   padding-left: 20px;
-  border-left: 1px solid #6f6f6f;
+  border-left: 1px solid var(--todo-border);
   width: auto;
 }
 
@@ -120,8 +183,8 @@ h2 {
 }
 
 .todo-button {
-  background-color: #6f6f6f;
-  color: #dcdccc;
+  background-color: var(--button-background);
+  color: var(--text-color);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -130,11 +193,11 @@ h2 {
 }
 
 .todo-button:hover {
-  background-color: #7f7f7f;
+  background-color: var(--button-hover-background);
 }
 
 .todo-button:active {
-  background-color: #5f5f5f;
+  background-color: var(--button-active-background);
 }
 
 .todo-buttons {
@@ -146,10 +209,10 @@ h2 {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 2px solid #6f6f6f;
+  border: 2px solid var(--input-border);
   border-radius: 4px;
-  background-color: #484848;
-  color: #dcdccc;
+  background-color: var(--container-background);
+  color: var(--text-color);
   outline: none;
   font-family: monospace
 }
@@ -158,21 +221,21 @@ h2 {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #6f6f6f;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
-  background-color: #3f3f3f;
-  color: #dcdccc;
+  background-color: var(--input-background);
+  color: var(--text-color);
   outline: none;
 }
 
-textarea#notes {
+#notes {
   width: 100%;
   height: calc(100% - 60px);
   padding: 10px;
-  border: 1px solid #6f6f6f;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
-  background-color: #3f3f3f;
-  color: #dcdccc;
+  background-color: var(--input-background);
+  color: var(--text-color);
   resize: none;
   outline: none;
 }
@@ -182,19 +245,19 @@ textarea#notes {
 }
 
 ::-webkit-scrollbar-track {
-  background: #3f3f3f;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #6f6f6f;
+  background-color: var(--scrollbar-thumb);
   border-radius: 6px;
-  border: 3px solid #3f3f3f;
+  border: 3px solid var(--scrollbar-track);
 }
 
 .collapse-button {
   background: none;
   border: none;
-  color: #dcdccc;
+  color: var(--text-color);
   cursor: pointer;
   margin-right: 10px;
 }
