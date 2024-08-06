@@ -1,4 +1,6 @@
-document.getElementById('add-todo').addEventListener('click', () => {
+document.getElementById('add-todo').addEventListener('click', add);
+
+function add() {
   const previouslySelected = document.querySelector('.todo-item.selected');
   const todoList = (parentTodo(previouslySelected) ?? document).querySelector('.todo-list');
   const newTodo = addTodoItem(todoList, '');
@@ -7,11 +9,13 @@ document.getElementById('add-todo').addEventListener('click', () => {
   addCollapseFunctionality(newTodo);
   document.getElementById('todo-title').focus();
   startSaveTimer();
-});
+}
 
 const parentTodo = (item) => item?.parentElement?.closest('.todo-item');
 
-document.getElementById('add-sub-todo').addEventListener('click', () => {
+document.getElementById('add-sub-todo').addEventListener('click', sub);
+
+  function sub() {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
 
@@ -24,9 +28,11 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
   setChildControlsVisibility(previouslySelected);
   document.getElementById('todo-title').focus();
   startSaveTimer();
-});
+}
 
-document.getElementById('delete-todo').addEventListener('click', () => {
+document.getElementById('delete-todo').addEventListener('click', del);
+
+function del() {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (!previouslySelected) return;
 
@@ -37,9 +43,11 @@ document.getElementById('delete-todo').addEventListener('click', () => {
   if (parent) setChildControlsVisibility(parent);
 
   startSaveTimer();
-});
+}
 
-document.getElementById('collapse-all').addEventListener('click', () => {
+document.getElementById('collapse-all').addEventListener('click', collapseAll);
+
+function collapseAll() {
   const previouslySelected = document.querySelector('.todo-item.selected');
   if (previouslySelected) {
     function getRoot(item) {
@@ -52,7 +60,7 @@ document.getElementById('collapse-all').addEventListener('click', () => {
   }
 
   document.querySelectorAll('.todo-item').forEach(collapse);
-});
+}
 
 document.getElementById('todo-filter').addEventListener('input', () => {
   const filterString = document.getElementById('todo-filter').value;
@@ -317,40 +325,61 @@ selectTodo(document.querySelector(".todo-item.selected"));
 
 document.addEventListener('keydown', (e) => {
   const selectedItem = document.querySelector(".todo-item.selected");
-  if (selectedItem && e.ctrlKey) {
-    switch (e.key) {
-      case 'ArrowUp':
+  if (e.ctrlKey) {
+    switch (e.key.toLowerCase()) {
+      case 'arrowup':
         moveUp(selectedItem);
         break;
-      case 'ArrowDown':
+      case 'arrowdown':
         moveDown(selectedItem);
         break;
-      case 'ArrowLeft':
+      case 'arrowleft':
         moveToAncestor(selectedItem);
         break;
-      case 'ArrowRight':
+      case 'arrowright':
         moveToDescendant(selectedItem);
+        break;
+      case "a":
+        e.preventDefault();
+        add();
+        break;
+      case "s":
+        e.preventDefault();
+        sub();
+        break;
+      case "d":
+      case "delete":
+        e.preventDefault();
+        del();
+        break;
+      case "c":
+        e.preventDefault();
+        collapseAll();
+        break;
+      case "w":
+        e.preventDefault();
+        save();
         break;
     }
   }
 });
 
 function moveUp(item) {
-  let prev = item.previousElementSibling;
+  let prev = item?.previousElementSibling;
   if (prev) {
     item.parentNode.insertBefore(item, prev);
   }
 }
 
 function moveDown(item) {
-  let next = item.nextElementSibling;
+  let next = item?.nextElementSibling;
   if (next) {
     item.parentNode.insertBefore(next, item);
   }
 }
 
 function moveToAncestor(item) {
-  let parentUl = item.parentNode.closest('ul');
+  let parentUl = item?.parentNode.closest('ul');
   if (parentUl) {
     let parentLi = parentUl.parentNode.closest('li');
     parentLi.after(item);
@@ -358,7 +387,7 @@ function moveToAncestor(item) {
 }
 
 function moveToDescendant(item) {
-  const targetUl = item.nextElementSibling?.querySelector("ul");
+  const targetUl = item?.nextElementSibling?.querySelector("ul");
   if (targetUl) {
     let firstChild = targetUl.querySelector('.todo-item');
     if (firstChild) {
