@@ -1,6 +1,5 @@
 import { ipcMain } from "electron";
 import * as fs from 'fs';
-import * as path from 'path';
 import * as fileWatcher from "./file-watcher.js";
 
 let uiFilePath;

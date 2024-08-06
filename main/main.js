@@ -3,7 +3,10 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import * as fileWatcher from "./file-watcher.js";
 
-const env = process.env.NODE_ENV || "development";
+let uiFilePath = process.argv[2];
+if (uiFilePath === "--remote-debugging-port=9222") uiFilePath = undefined;
+
+const env = uiFilePath ? "production" : "developmet";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,14 +14,12 @@ const __dirname = path.dirname(__filename);
 // If development environment 
 if (env === "development") {
   fileWatcher.watch(path.join(__dirname, ".."));
+  console.log("Watching files");
 }
-
-let uiFilePath = process.argv[2];
-if (uiFilePath === "--remote-debugging-port=9222") uiFilePath = undefined;
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1050,
+    width: 900,
     height: 675,
     // show: false,
     webPreferences: {

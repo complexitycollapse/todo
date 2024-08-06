@@ -1,7 +1,3 @@
-document.getElementById('save').addEventListener('click', () => {
-  electron.save(document.documentElement.outerHTML);
-});
-
 document.getElementById('add-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   const todoList = (parentTodo(previouslySelected) ?? document).querySelector('.todo-list');
@@ -10,6 +6,7 @@ document.getElementById('add-todo').addEventListener('click', () => {
   addCheckboxFunctionality(newTodo);
   addCollapseFunctionality(newTodo);
   document.getElementById('todo-title').focus();
+  startSaveTimer();
 });
 
 const parentTodo = (item) => item?.parentElement?.closest('.todo-item');
@@ -26,6 +23,7 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
   setChildControlsVisibility(newSubTodo);
   setChildControlsVisibility(previouslySelected);
   document.getElementById('todo-title').focus();
+  startSaveTimer();
 });
 
 document.getElementById('delete-todo').addEventListener('click', () => {
@@ -37,6 +35,8 @@ document.getElementById('delete-todo').addEventListener('click', () => {
   clearNotesIfDeleted(previouslySelected);
 
   if (parent) setChildControlsVisibility(parent);
+
+  startSaveTimer();
 });
 
 document.getElementById('collapse-all').addEventListener('click', () => {
@@ -168,6 +168,7 @@ function addCheckboxFunctionality(item) {
       }
 
       setChildControlsVisibility(parentTodo(item));
+      startSaveTimer();
   });
 }
 
@@ -366,4 +367,33 @@ function moveToDescendant(item) {
       targetUl.appendChild(item);
     }
   }
+}
+
+// Auto-saving
+
+window.addEventListener('beforeunload', (e) => {
+  save();
+});
+
+let saveTimer = null;
+
+function startSaveTimer() {
+  if (saveTimer) {
+    clearTimeout(saveTimer);
+  }
+
+  saveTimer = setTimeout(() => {
+    save();
+    saveTimer = null;
+  }, 10000); // 10 seconds
+}
+
+const textareas = document.querySelectorAll('textarea');
+textareas.forEach(textarea => {
+  textarea.addEventListener('input', startSaveTimer);
+});
+
+function save(){
+  electron.save(document.documentElement.outerHTML);
+  console.log("saved");
 }
