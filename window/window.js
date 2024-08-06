@@ -6,7 +6,6 @@ document.getElementById('add-todo').addEventListener('click', () => {
   const previouslySelected = document.querySelector('.todo-item.selected');
   const todoList = (parentTodo(previouslySelected) ?? document).querySelector('.todo-list');
   const newTodo = addTodoItem(todoList, '');
-  makeDraggable(newTodo);
   addNoteFunctionality(newTodo);
   addCheckboxFunctionality(newTodo);
   addCollapseFunctionality(newTodo);
@@ -21,7 +20,6 @@ document.getElementById('add-sub-todo').addEventListener('click', () => {
 
   const nestedList = previouslySelected.querySelector('ul');
   const newSubTodo = addTodoItem(nestedList, '');
-  makeDraggable(newSubTodo);
   addNoteFunctionality(newSubTodo);
   addCheckboxFunctionality(newSubTodo);
   addCollapseFunctionality(newSubTodo);
@@ -184,37 +182,6 @@ function moveItemToActivePosition(item) {
   todoList.insertBefore(item, items[i]);
 }
 
-function makeDraggable(item) {
-  item.draggable = true;
-  item.querySelector(".todo-headline").addEventListener('dragstart', (e) => {
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/html', item.outerHTML);
-      item.classList.add('dragging');
-  });
-
-  item.addEventListener('dragend', () => {
-      item.classList.remove('dragging');
-  });
-
-  item.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-  });
-
-  item.addEventListener('drop', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const draggingItem = document.querySelector('.dragging');
-      const target = e.target.closest('.todo-item');
-      const todoList = item.parentNode;
-
-      if (draggingItem !== target && todoList.contains(target)) {
-          todoList.insertBefore(draggingItem, target);
-      }
-  });
-}
-
 function addNoteFunctionality(item) {
   item.addEventListener('click', e => {
     if (event.target.classList.contains('todo-checkbox')) {
@@ -337,7 +304,6 @@ function findTopLevelTodoItems(item) {
 }
 
 document.querySelectorAll('.todo-item').forEach(item => {
-  makeDraggable(item);
   addNoteFunctionality(item);
   addCheckboxFunctionality(item);
   addCollapseFunctionality(item);
