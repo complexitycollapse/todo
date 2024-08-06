@@ -6,7 +6,7 @@ import * as fileWatcher from "./file-watcher.js";
 let uiFilePath = process.argv[2];
 if (uiFilePath === "--remote-debugging-port=9222") uiFilePath = undefined;
 
-const env = uiFilePath ? "production" : "developmet";
+const env = uiFilePath ? "production" : "development";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

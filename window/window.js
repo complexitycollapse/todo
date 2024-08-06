@@ -57,13 +57,13 @@ document.getElementById('collapse-all').addEventListener('click', () => {
 document.getElementById('todo-filter').addEventListener('input', () => {
   const filterString = document.getElementById('todo-filter').value;
   Array.from(document.getElementById('main-list').children).forEach(item => {
-    recursiveFilter(filterString, item);
+    recursiveFilter(filterString.toLowerCase(), item);
   });
 });
 
 function recursiveFilter(filter, item) {
-  const title = item.querySelector('.todo-text').textContent;
-  const notes = item.dataset.notes;
+  const title = item.querySelector('.todo-text').textContent.toLowerCase();
+  const notes = (item.dataset.notes ?? "").toLowerCase();
   const childItems = findTopLevelTodoItems(item);
 
   let visible = false, childrenVisible = false;
