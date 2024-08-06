@@ -17,14 +17,16 @@
   <body>
     <div class="container">
       <div class="left-pane">
-        <div class="todo-buttons">
-          <button id="add-todo" class="todo-button">Add Todo</button>
-          <button id="add-sub-todo" class="todo-button">Add Sub-Todo</button>
-          <button id="delete-todo" class="todo-button">Delete</button>
-          <button id="collapse-all" class="todo-button">Collapse All</button>
-          <button id="save" class="todo-button">Save</button>
+        <div class="controls">
+          <div class="todo-buttons">
+            <button id="add-todo" class="todo-button">Add Todo</button>
+            <button id="add-sub-todo" class="todo-button">Add Sub-Todo</button>
+            <button id="delete-todo" class="todo-button">Delete</button>
+            <button id="collapse-all" class="todo-button">Collapse All</button>
+            <button id="save" class="todo-button">Save</button>
+          </div>
+          <input id="todo-filter" placeholder="Filter todos..."/>
         </div>
-        <input id="todo-filter" placeholder="Filter todos..."/>
         <ul id='main-list' class="todo-list">
           <li class="todo-item" data-notes="">
             <div class="todo-headline">

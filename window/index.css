@@ -20,8 +20,6 @@ body {
 }
 
 .left-pane, .right-pane {
-  padding: 20px 20px 20px 20px;
-  overflow-y: auto;
   flex: 1; /* Ensure both panes take equal space by default */
 }
 
@@ -33,9 +31,11 @@ body {
 }
 
 .right-pane {
+  padding: 20px 20px 20px 20px;
   background-color: #4f4f4f;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   align-items: flex-start;
 }
 
@@ -126,6 +126,7 @@ h2 {
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 4px;
+  margin: 0px 20px 12px 0px;
 }
 
 .todo-button:hover {
@@ -139,10 +140,6 @@ h2 {
 .todo-buttons {
   display: flex;
   flex-direction: row;
-}
-
-.todo-buttons > .todo-button {
-  margin: 0px 20px 20px 0px;
 }
 
 #todo-filter {
@@ -216,4 +213,15 @@ textarea#notes {
 
 .filter-excluded {
   display: none;
+}
+
+#main-list {
+  padding: 0px 20px 0px 20px;
+  margin-right: 20px;
+  overflow-y: auto;
+}
+
+.controls {
+  padding: 20px 30px 0px 20px;
+  width: 100%;
 }
