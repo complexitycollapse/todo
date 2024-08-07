@@ -31,6 +31,7 @@ const createWindow = () => {
 
   // win.maximize();
   // win.show();
+  win.setMenu(null);
   win.loadFile(uiFilePath ?? "window/index.html");
 
   // Listen for console events and open DevTools on error
