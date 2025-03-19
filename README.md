@@ -23,3 +23,23 @@ There is an example in this project, called todo.html, which is the todo list fo
  - Edit the TODO using the box on the top right
  - Add notes to any TODO using the big textarea
  - Drag the middle partition around to resize the two sides
+
+## Lessons Learned
+
+So what are the takeaways from this project?
+
+ - Really good features-to-effort ratio. It doesn't do much but it's surprisingly useful considering how little effort it took.
+ - Fast MVP and easy to iterate on.
+ - Although it never lost my data, I was unable to trust a data storage system I'd created myself. Would have preferred to keep everything in a database.
+ - No easy upgrade path, as all the data and functionality is embedded together in the HTML.
+ - Making in hierarchical was a mistake. Tagging is always better than hierarchy.
+ - Theming is surprisingly useful as it allows different projects to be visually distinguished.
+ - Did the job well, but far from perfectly.
+ - Should have separated data from presentation using templates, but that would have increased the effort required.
+ - Lots of separate TODO lists is nice for separation but it would also be nice to combine them. That would be easier in a monorepo setup.
+ - Visuals are really important for something like this.
+ - Shame that neither links nor images could be embedded. Should have leveraged the fact that this is HTML more.
+
+Ultimately I stopped using it because I didn't trust it and there were always more features I wanted, but there was no way to safely migrate the data. Could a database system be made this easy to use? Could it be written so quickly? Possibly, if done right.
+
+Overall though, I was pleased with what I got from a very short-term project. If only all development were this easy.
